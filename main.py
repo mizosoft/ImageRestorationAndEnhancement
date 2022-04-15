@@ -23,6 +23,7 @@ class RunMode(Enum):
     ENHANCE_RESTORE = 1
     RESTORE_ENHANCE = 2
     ONLY_RESTORE = 3
+    ONLY_ENHANCE = 4
 
 
 # Set home for CUDA
@@ -66,9 +67,10 @@ def run(input_dir, output_dir, inpaint_scratches=False,
 
         enhance_quality = False
 
-    print(f"Running face restoration/enhancement & super resolution on {input_dir}")
-    input_dir = face_enhancement.run(
-        input_dir, os.path.join(output_dir, 'face_restore'), sr_scale=sr_scale, use_cuda=not hr_restore)
+    if run_mode is not RunMode.ONLY_ENHANCE:
+        print(f"Running face restoration/enhancement & super resolution on {input_dir}")
+        input_dir = face_enhancement.run(
+            input_dir, os.path.join(output_dir, 'face_restore'), sr_scale=sr_scale, use_cuda=not hr_restore)
 
     rerun_restoration = False
     if run_mode is RunMode.RESTORE_ENHANCE and enhance_quality:
@@ -118,8 +120,10 @@ def run(input_dir, output_dir, inpaint_scratches=False,
 
 def main():
     # run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
-    run('sample_image', 'output/out2', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=False, hr_restore=True)
+    # run('input', 'output/scratchbob', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=False, hr_restore=True)
     # run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
+    run('input', 'output/soka', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE, hr_quality=True, hr_restore=True)
+    run('input', 'output/soka2', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE, hr_quality=True, hr_restore=True)
 
 
 if __name__ == '__main__':

@@ -15,3 +15,5 @@ venv
 weights
 models
 __pycache__
+.idea
+!quality/models
