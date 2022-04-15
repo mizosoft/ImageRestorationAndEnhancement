@@ -15,13 +15,11 @@ Run `main.py` to generate results. Input directory is `sample_images`, but you c
 According to `RunMode` and whether `colorize` is set, output is either `<output-dir>/face_restore` or `<output-dir>/quality_enh/restored_image`
 or `<output-dir>/colorization` (also see `run` in `main.py`).
 
-## Result 
+## Sample resulst
 
-Note: these are handpicked.
+![](img/b.jpg)
 
-[!](img/b.jpg)
-
-[!](img/b_out.png)
+![](img/b_out.png)
 
 ## TODO 
 

@@ -116,11 +116,9 @@ def run(input_dir, output_dir, inpaint_scratches=False,
     print(input_dir)
     return input_dir
 
-
-
 def main():
     # run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
-    run('sample_image', 'output/out2', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=True, hr_restore=True)
+    run('sample_image', 'output/out2', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=False, hr_restore=True)
     # run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
 
 
