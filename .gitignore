@@ -14,3 +14,4 @@ test_images
 venv
 weights
 models
+__pycache__
