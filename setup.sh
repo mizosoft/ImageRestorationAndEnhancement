@@ -9,7 +9,7 @@ then
   unzip global_checkpoints.zip
 fi
 
-if [[ -d 'weights' ]]
+if [[ ! -d 'weights' ]]
 then
   mkdir 'weights'
 fi
