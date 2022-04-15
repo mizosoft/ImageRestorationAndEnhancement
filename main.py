@@ -96,17 +96,17 @@ def run(input_dir, output_dir, inpaint_scratches=False,
                 print(f'Skipping non-image path: {filename}')
                 continue
 
-            print(f'Processing: {filename}')
+            print(f'Processing: {image_path}')
 
-            colorizer = visualize.get_image_colorizer(artistic=True)
+            colorizer = visualize.get_image_colorizer(artistic=False)
             result = colorizer.get_transformed_image(
                 Path(image_path),
-                render_factor=35,
+                render_factor=30,
                 post_process=True,
                 watermarked=False)
 
             if result is not None:
-                result.save(os.path.join(output_dir, filename), quality=100)
+                result.save(os.path.join(output_dir, filename), quality=95)
                 result.close()
             else:
                 print(f'Colorization failed for {image_path}')
@@ -120,7 +120,7 @@ def run(input_dir, output_dir, inpaint_scratches=False,
 
 def main():
     # run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
-    run('sample_image', 'output/out1', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE, colorize=True, hr_restore=True)
+    run('sample_image', 'output/out2', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=True, hr_restore=True)
     # run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
 
 

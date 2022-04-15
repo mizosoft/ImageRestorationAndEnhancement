@@ -3,11 +3,11 @@ from pathlib import Path
 
 from deoldify import visualize
 
-input_path = 'colorize_test/Solvay_conference_1927.png'
-output_path = 'colorize_test/out/Solvay_conference_1927.png'
-render_factor = 50
+input_path = 'colorize_test/b.png'
+output_path = 'colorize_test/out2/b.png'
+render_factor = 30
 
-colorizer = visualize.get_image_colorizer(artistic=True)
+colorizer = visualize.get_image_colorizer(artistic=False)
 result = colorizer.get_transformed_image(Path(input_path), render_factor=render_factor, post_process=True, watermarked=False)
 if result is not None:
     result.save(output_path, quality=95)

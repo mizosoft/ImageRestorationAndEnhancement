@@ -15,6 +15,14 @@ Run `main.py` to generate results. Input directory is `sample_images`, but you c
 According to `RunMode` and whether `colorize` is set, output is either `<output-dir>/face_restore` or `<output-dir>/quality_enh/restored_image`
 or `<output-dir>/colorization` (also see `run` in `main.py`).
 
+## Result 
+
+Note: these are handpicked.
+
+[!](img/b.jpg)
+
+[!](img/b_out.png)
+
 ## TODO 
 
  - Supplant out-of-the-box face restoration in scratched photos with GPEN's face inpainting. Not sure if it'd work though.
