@@ -25,3 +25,5 @@ According to `RunMode`, output is either `<output-dir>/face_restore` or `<output
 [Old photo restoration by deep latent space translation](https://github.com/microsoft/Bringing-Old-Photos-Back-to-Life)
 
 [GPEN](https://github.com/yangxy/GPEN)
+
+[DeOldify](https://github.com/jantic/DeOldify)
