@@ -1,11 +1,13 @@
 import os
 import shutil
 from enum import Enum
+from pathlib import Path
 
 import face_enhancement
 import my_utils
 import quality_enhancement
 import scratch_detection
+from deoldify import visualize
 
 DEFAULT_INPUT_DIR = 'test_input'
 DEFAULT_OUTPUT_DIR = 'test_output'
@@ -82,15 +84,44 @@ def run(input_dir, output_dir, inpaint_scratches=False,
             input_dir, os.path.join(output_dir, 'face_restore2'), sr_scale=sr_scale,
             use_cuda=not hr_restore)
 
+    if colorize:
+        output_dir = os.path.join(output_dir, 'colorization')
+        os.makedirs(output_dir, exist_ok=True)
+
+        for filename in os.listdir(input_dir):
+            image_path = os.path.join(input_dir, filename)
+
+            if not os.path.isfile(image_path) or os.path.splitext(filename)[-1][1:] not in ['png', 'jpg', 'jpeg']:
+                # print(os.path.splitext(filename)[-1][1:])
+                print(f'Skipping non-image path: {filename}')
+                continue
+
+            print(f'Processing: {filename}')
+
+            colorizer = visualize.get_image_colorizer(artistic=True)
+            result = colorizer.get_transformed_image(
+                Path(image_path),
+                render_factor=30,
+                post_process=True,
+                watermarked=False)
+
+            if result is not None:
+                result.save(os.path.join(output_dir, filename), quality=95)
+                result.close()
+            else:
+                print(f'Colorization failed for {image_path}')
+
+        input_dir = output_dir
+
     print(input_dir)
     return input_dir
 
 
 
 def main():
-    run('sample_image', 'output/out1', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
-    run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE)
-    run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
+    # run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
+    run('sample_image', 'output/out1', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE, colorize=True, hr_restore=True)
+    # run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
 
 
 if __name__ == '__main__':
