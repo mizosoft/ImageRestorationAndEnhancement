@@ -1,0 +1,16 @@
+checkpoints
+input
+output
+colorize_test
+examples
+imgs
+no_scratch
+no_scratch_detect
+partition_test
+result_images
+scratch
+scratch_detect
+test_images
+venv
+weights
+models
