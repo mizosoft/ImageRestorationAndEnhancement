@@ -101,12 +101,12 @@ def run(input_dir, output_dir, inpaint_scratches=False,
             colorizer = visualize.get_image_colorizer(artistic=True)
             result = colorizer.get_transformed_image(
                 Path(image_path),
-                render_factor=30,
+                render_factor=35,
                 post_process=True,
                 watermarked=False)
 
             if result is not None:
-                result.save(os.path.join(output_dir, filename), quality=95)
+                result.save(os.path.join(output_dir, filename), quality=100)
                 result.close()
             else:
                 print(f'Colorization failed for {image_path}')

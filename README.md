@@ -12,7 +12,8 @@ Run `main.py` to generate results. Input directory is `sample_images`, but you c
 
 ## Output
 
-According to `RunMode`, output is either `<output-dir>/face_restore` or `<output-dir>/quality_enh/restored_image` (also see `run` in `main.py`.
+According to `RunMode` and whether `colorize` is set, output is either `<output-dir>/face_restore` or `<output-dir>/quality_enh/restored_image`
+or `<output-dir>/colorization` (also see `run` in `main.py`).
 
 ## TODO 
 
