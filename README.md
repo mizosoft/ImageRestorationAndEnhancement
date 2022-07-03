@@ -1,6 +1,4 @@
-An ill-prepared graduation project.
-
-Meh...
+Graduation project for image restoration, enhancement & colorization.
 
 ## Installation
 

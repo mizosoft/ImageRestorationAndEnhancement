@@ -2,6 +2,7 @@ import os
 import shutil
 from enum import Enum
 from pathlib import Path
+import argparse
 
 import face_enhancement
 import my_utils
@@ -41,9 +42,11 @@ def copy_files(files, dest_dir):
 
 
 def run(input_dir, output_dir, inpaint_scratches=False,
-        colorize=False, GPU="0", sr_scale=2, hr_quality=False,
-        hr_restore=False, run_mode=RunMode.ENHANCE_RESTORE):
+        colorize=False, sr_scale=4, hr_quality=False,
+        hr_restore=False, run_mode=RunMode.ENHANCE_RESTORE, use_gpu=False):
     my_utils.remake_dir(output_dir)
+
+    GPU = "0" if use_gpu else "-1"
 
     enhance_quality = True
 
@@ -55,22 +58,22 @@ def run(input_dir, output_dir, inpaint_scratches=False,
         print(f"Running quality enhancement on {input_dir}")
         input_dir = quality_enhancement.run(
             input_dir, os.path.join(output_dir, 'quality_enh'),
-            HR=hr_quality,
-            masks_dir=masks_dir)
+            HR=hr_quality, masks_dir=masks_dir, GPU=GPU)
+
         enhance_quality = False
 
-    if run_mode is RunMode.ENHANCE_RESTORE and enhance_quality:
+    if enhance_quality and (run_mode is RunMode.ENHANCE_RESTORE or run_mode is RunMode.ONLY_ENHANCE):
         print(f"Running quality enhancement on {input_dir}")
         input_dir = quality_enhancement.run(
             input_dir, os.path.join(output_dir, 'quality_enh'),
-            HR=hr_quality, test_mode="Full")
+            HR=hr_quality, test_mode="Full", GPU=GPU)
 
         enhance_quality = False
 
     if run_mode is not RunMode.ONLY_ENHANCE:
         print(f"Running face restoration/enhancement & super resolution on {input_dir}")
         input_dir = face_enhancement.run(
-            input_dir, os.path.join(output_dir, 'face_restore'), sr_scale=sr_scale, use_cuda=not hr_restore)
+            input_dir, os.path.join(output_dir, 'face_restore'), sr_scale=sr_scale, use_cuda=use_gpu and not hr_restore)
 
     rerun_restoration = False
     if run_mode is RunMode.RESTORE_ENHANCE and enhance_quality:
@@ -84,9 +87,10 @@ def run(input_dir, output_dir, inpaint_scratches=False,
         print(f"Running face restoration/enhancement & super resolution on {input_dir}")
         input_dir = face_enhancement.run(
             input_dir, os.path.join(output_dir, 'face_restore2'), sr_scale=sr_scale,
-            use_cuda=not hr_restore)
+            use_cuda=use_gpu and not hr_restore)
 
     if colorize:
+        print(f'Running colorization stage on {input_dir}')
         output_dir = os.path.join(output_dir, 'colorization')
         os.makedirs(output_dir, exist_ok=True)
 
@@ -118,12 +122,28 @@ def run(input_dir, output_dir, inpaint_scratches=False,
     print(input_dir)
     return input_dir
 
+
 def main():
     # run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
     # run('input', 'output/scratchbob', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=False, hr_restore=True)
     # run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
-    run('input', 'output/soka', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE, hr_quality=True, hr_restore=True)
-    run('input', 'output/soka2', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE, hr_quality=True, hr_restore=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input_folder", type=str, default="input", help="Input folder")
+    parser.add_argument("--output_folder", type=str, default="output/soka", help="Output folder")
+    parser.add_argument("--run_mode", type=int, default=1, choices=range(1, 5),
+                        help="Setting run mode, 1-> ENHANCE_RESTORE 2->RESTORE_ENHANCE 3->RESTORE_ONLY 4->ENHANCE_ONLY")
+    parser.add_argument("--sr_scale", type=int, default=4)
+    parser.add_argument("--hr_quality", action='store_true')
+    parser.add_argument("--hr_restore", action='store_true')
+    parser.add_argument("--colorize", action='store_true')
+    parser.add_argument("--use_gpu", action='store_true')
+    parser.add_argument("--inpaint_scratches", action="store_true")
+    args = parser.parse_args()
+
+    run(args.input_folder, args.output_folder, sr_scale=args.sr_scale, run_mode=RunMode(args.run_mode),
+        hr_quality=args.hr_quality, hr_restore=args.hr_restore, colorize=args.colorize, use_gpu=args.use_gpu,
+        inpaint_scratches=args.inpaint_scratches)
+    # run('input', 'output/soka2', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE, hr_quality=True, hr_restore=True)
 
 
 if __name__ == '__main__':
