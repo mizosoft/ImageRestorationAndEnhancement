@@ -8,6 +8,12 @@ Run `setup.sh` to download weights & models & stuff.
 
 Run `main.py` to generate results. Input directory is `sample_images`, but you can change that (see `run` in `main.py`).
 
+## GUI
+
+There's also a simple GUI app. See/run `gui.py`.
+
+![](img/gui_ss.png)
+
 ## Output
 
 According to `RunMode` and whether `colorize` is set, output is either `<output-dir>/face_restore` or `<output-dir>/quality_enh/restored_image`
