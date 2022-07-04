@@ -10,7 +10,7 @@ Run `main.py` to generate results. Input directory is `sample_images`, but you c
 
 ## GUI
 
-There's also a simple GUI app. See/run `gui.py`.
+There's also a GUI app that's built with [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI). See/run `gui.py`.
 
 ![](img/gui_ss.png)
 
