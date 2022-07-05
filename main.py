@@ -104,7 +104,7 @@ def run(input_dir, output_dir, inpaint_scratches=False,
 
             print(f'Processing: {image_path}')
 
-            colorizer = visualize.get_image_colorizer(artistic=False)
+            colorizer = visualize.get_image_colorizer(artistic=True)
             result = colorizer.get_transformed_image(
                 Path(image_path),
                 render_factor=30,
