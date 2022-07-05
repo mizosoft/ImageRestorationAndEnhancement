@@ -124,9 +124,6 @@ def run(input_dir, output_dir, inpaint_scratches=False,
 
 
 def main():
-    # run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
-    # run('input', 'output/scratchbob', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=False, hr_restore=True)
-    # run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_folder", type=str, default="input", help="Input folder")
     parser.add_argument("--output_folder", type=str, default="output/soka", help="Output folder")
