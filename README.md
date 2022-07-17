@@ -12,6 +12,8 @@ Run `main.py` to generate results. Input directory is `sample_images`, but you c
 
 There's also a GUI app that's built with [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI). See/run `gui.py`.
 
+You can also download the project from [this link](http://mizosoft.imagerestoration.pysimplegui.org). The link is hosted by [PySimpleGUI](https://github.com/PySimpleGUI). It includes the needed weights/models (about 4.5GB in total with the code). The GUI also looks nicer (e.g. it's modified to run the lengthy operations in another thread, so the GUI doesn't hang). 
+
 ![](img/gui_ss.png)
 ![](img/gui_ss_2.png)
 
